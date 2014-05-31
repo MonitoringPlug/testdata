@@ -1,0 +1,2 @@
+DirectoryIndex index.txt
+ErrorDocument 404 /loremipsum/index.txt

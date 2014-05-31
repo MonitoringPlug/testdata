@@ -1,0 +1,4 @@
+DirectoryIndex index.json
+
+RewriteEngine on
+RewriteRule .* index.json [L]

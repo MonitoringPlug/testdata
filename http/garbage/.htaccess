@@ -1,0 +1,4 @@
+DirectoryIndex index.txt
+
+RewriteEngine on
+RewriteRule .* index.txt [L]
