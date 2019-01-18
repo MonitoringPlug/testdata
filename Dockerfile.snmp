@@ -1,0 +1,3 @@
+FROM registry.gitlab.com/monitoringplug/replayd:latest
+
+COPY snmp/* /src/replays/

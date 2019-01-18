@@ -1,0 +1,35 @@
+image: docker:stable
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+snmp:
+  stage: build
+  script:
+    - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker build --pull --tag ${CI_REGISTRY_IMAGE}/snmp:latest --file Dockerfile.snmp .
+    - docker push ${CI_REGISTRY_IMAGE}/snmp:latest
+  only:
+    changes:
+      - Dockerfile.snmp
+      - snmp/*
+
+http:
+  stage: build
+  script:
+    - docker login --username ${CI_REGISTRY_USER} --password ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker build --pull --tag ${CI_REGISTRY_IMAGE}/http:latest --file Dockerfile.http .
+    - docker push ${CI_REGISTRY_IMAGE}/http:latest
+  only:
+    changes:
+      - Dockerfile.http
+      - http/*
+      - http/**/*
+
