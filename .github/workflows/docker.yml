@@ -1,0 +1,23 @@
+name: Docker Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        dir: [http]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build Image
+      run: docker build --tag docker.pkg.github.com/monitoringplug/testdata/mptestdata:${{ matrix.dir }} ${{ matrix.dir }}/
+
+    - name: Docke Login
+      run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+
+    - name: Upload Image
+      run : docker push docker.pkg.github.com/monitoringplug/testdata/mptestdata:${{ matrix.dir }}
